@@ -3,6 +3,9 @@ let multiplicationPressed = 0;
 let additionPressed = 0;
 let subtractionPressed = 0;
 
+let bracketLeft = 0;
+let bracketRight = 0;
+
 let interface = document.querySelector("#result");
 let result
 const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "("]
@@ -15,51 +18,72 @@ clearBtn.addEventListener("click", () => {
 
 });
 
+function round(num, decimalPoints){
+    return Math.floor(num * 10**decimalPoints) / 10**decimalPoints;
+}
+
+function addNumber(number) {
+    if (
+        interfaceContent === "" ||
+        numbers.includes(interfaceContent[interfaceContent.length - 1]) ||
+        additionPressed ||
+        subtractionPressed ||
+        multiplicationPressed ||
+        divisionPressed
+    ) {
+        interface.textContent += number;
+        interfaceContent = interface.textContent;
+
+        additionPressed = 0;
+        subtractionPressed = 0;
+        multiplicationPressed = 0;
+        divisionPressed = 0;
+    }
+}
+
+function addOperator(operator) {
+    if (
+        interfaceContent !== "" &&
+        numbers.includes(interfaceContent[interfaceContent.length - 1])
+    ) {
+        interface.textContent += operator;
+        interfaceContent = interface.textContent;
+    }
+}
+
 const percBtn = document.querySelector("#perc");
 
 const multiplicationBtn = document.querySelector("#multiplication");
 multiplicationBtn.addEventListener("click", () =>{
-    if(interfaceContent == "" || !(numbers.includes(interfaceContent[interfaceContent.length - 1]))){
-    } else {
-        multiplicationPressed = 1;
-        interface.textContent += "*";
-        interfaceContent = interface.textContent;
-    };
+    addOperator("*");
+    multiplicationPressed = 1;
 });
 
 const divisionBtn = document.querySelector("#division");
 divisionBtn.addEventListener("click", () =>{
-    if(interfaceContent == "" || !(numbers.includes(interfaceContent[interfaceContent.length - 1]))){
-    } else {
-        divisionPressed = 1;
-        interface.textContent += "/";
-        interfaceContent = interface.textContent;
-    };
+    addOperator("/");
+    divisionPressed = 1;
 });
 
 const additionBtn = document.querySelector("#addition");
 additionBtn.addEventListener("click", () =>{
-    if(interfaceContent == "" || !(numbers.includes(interfaceContent[interfaceContent.length - 1]))){
-    } else {
-        additionPressed = 1;
-        interface.textContent += "+";
-        interfaceContent = interface.textContent;;
-    };
+    addOperator("+");
+    additionPressed = 1;
 });
 
 const subtractionBtn = document.querySelector("#subtraction");
 subtractionBtn.addEventListener("click", () =>{
-    if(interfaceContent == "" || !(numbers.includes(interfaceContent[interfaceContent.length - 1]))){
-    } else {
-        subtractionPressed = 1;
-        interface.textContent += "-";
-        interfaceContent = interface.textContent;
-    };
+    addOperator("-");
+    subtractionPressed = 1;
 });
 
 const equalsBtn = document.querySelector("#evaluate");
 equalsBtn.addEventListener("click", () => {
-    result = String(Function(`return ${interfaceContent}`)());
+    interfaceContent = interfaceContent
+    .replace(/(\d)\(/g, "$1*(")
+    .replace(/\)(\d)/g, ")*$1")
+    .replace(/\)\(/g, ")*(");
+    result = String(round(Function(`return ${interfaceContent}`)(), 2));
     interface.textContent = result;
     interfaceContent = interface.textContent;
 });
@@ -71,219 +95,79 @@ delBtn.addEventListener("click", () => {
 });
 
 const decimalBtn = document.querySelector("#decimal-point");
+decimalBtn.addEventListener("click", () => {
+    const currentNumber = interfaceContent.split(/[+\-*/()]/).pop();
+
+    if (currentNumber === "") {
+        interface.textContent += "0.";
+    } else if (!currentNumber.includes(".")) {
+        interface.textContent += ".";
+    }
+
+    interfaceContent = interface.textContent;
+});
 
 const oneBtn = document.querySelector("#one");
 oneBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "1";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "1"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "1"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "1"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "1"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("1")
 })
 
 const twoBtn = document.querySelector("#two");
 twoBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "2";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "2"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "2"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "2"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "2"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("2")
 })
 
 const threeBtn = document.querySelector("#three");
 threeBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "3";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "3"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "3"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "3"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "3"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("3")
 })
 
 const fourBtn = document.querySelector("#four");
 fourBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "4";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "4"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "4"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "4"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "4"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("4")
 })
 
 const fiveBtn = document.querySelector("#five");
 fiveBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "5";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "5"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "5"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "5"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "5"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("5")
 })
 
 const sixBtn = document.querySelector("#six");
 sixBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "6";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "6"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "6"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "6"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "6"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("6")
 })
 
 const sevenBtn = document.querySelector("#seven");
 sevenBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "7";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "7"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "7"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "7"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "7"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("7")
 })
 
 const eightBtn = document.querySelector("#eight");
 eightBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "8";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "8"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "8"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "8"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "8"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
-    } 
+    addNumber("8")
 })
 
 const nineBtn = document.querySelector("#nine");
 nineBtn.addEventListener("click", () => {
-    if(interfaceContent == "" || numbers.includes(interfaceContent[interfaceContent.length - 1])){
-        interface.textContent += "9";
-        interfaceContent = interface.textContent;
-    } else if(additionPressed == 1){
-        interface.textContent += "9"
-        interfaceContent = interface.textContent;
-        additionPressed = 0;
-    } else if(subtractionPressed == 1){
-        interface.textContent += "9"
-        interfaceContent = interface.textContent;
-        subtractionPressed = 0;
-    } else if(multiplicationPressed == 1){
-        interface.textContent += "9"
-        interfaceContent = interface.textContent;
-        multiplicationPressed = 0;
-    } else if(divisionPressed == 1){
-        interface.textContent += "9"
-        interfaceContent = interface.textContent;
-        divisionPressed = 0;
+    addNumber("9")
+});
+
+const bracketsBtn = document.querySelector("#brackets");
+bracketsBtn.addEventListener("click", () => {
+    const open = (interfaceContent.match(/\(/g) || []).length;
+    const close = (interfaceContent.match(/\)/g) || []).length;
+    const last = interfaceContent[interfaceContent.length - 1];
+
+    if (
+        interfaceContent === "" ||
+        "+-*/(".includes(last)
+    ) {
+        interface.textContent += "(";
+    } else if (open > close) {
+        interface.textContent += ")";
+    } else {
+        interface.textContent += "(";
     }
-})
+
+    interfaceContent = interface.textContent;
+});
