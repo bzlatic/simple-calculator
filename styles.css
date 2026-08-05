@@ -1,3 +1,69 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../fonts/roboto/Roboto-Regular.ttf);
+}
+
 body{
     margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+#calc{
+    background-color: black;
+    width: 375px;
+    height: 550px;
+    margin: 50px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#result{
+    background-color: lightgreen;
+    width: 300px;
+    height: 100px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+#buttons{
+    width: 300px;
+    height: 325px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    gap: 10px;
+    font-family: Roboto, sans-serif;
+}
+
+button{
+    border-radius: 50px;
+    width: 65px;
+    height: 65px;
+    font-size: x-large;
+    font-weight: bold;
+    font-family: Roboto, sans-serif;
+    color: white;
+}
+
+.num{
+    background-color: gray;
+    border: solid gray;
+}   
+
+.func{
+    background-color: orange;
+    border: solid orange;
+}   
+
+.spec{
+    background-color: lightgray;
+    border: solid lightgray;
+}   
