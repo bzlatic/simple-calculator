@@ -171,3 +171,8 @@ bracketsBtn.addEventListener("click", () => {
 
     interfaceContent = interface.textContent;
 });
+
+const odinBtn = document.querySelector("#odin");
+odinBtn.addEventListener("click", () => {
+    window.open("https://www.theodinproject.com");
+});
